@@ -216,9 +216,9 @@
   <!-- ===== BIRTHDAY REVEAL ===== -->
   <section id="screen-birthday" class="screen">
     <canvas id="confetti-canvas"></canvas>
-    <div class="polaroid float" style="top:8%; left:6%; --r:-8deg;"><img src="assets/photo1.jpg" alt=""></div>
-    <div class="polaroid float" style="top:12%; right:6%; --r:7deg; animation-delay:1s;"><img src="assets/photo2.jpg" alt=""></div>
-    <div class="polaroid float" style="bottom:10%; left:8%; --r:5deg; animation-delay:2s;"><img src="assets/photo3.jpg" alt=""></div>
+    <div class="polaroid float" style="top:8%; left:6%; --r:-8deg;"><img src="photo1.png" alt=""></div>
+    <div class="polaroid float" style="top:12%; right:6%; --r:7deg; animation-delay:1s;"><img src="photo2.png" alt=""></div>
+    <div class="polaroid float" style="bottom:10%; left:8%; --r:5deg; animation-delay:2s;"><img src="photo3.jpg" alt=""></div>
     <h1 id="birthday-text" style="position:relative; z-index:2;">HAPPPYYY BIRTHDAY,<br><span class="script" style="font-size:2.6rem;">NAINAAAAAA</span> 🛐😍!!</h1>
     <p class="small-note" style="position:relative; z-index:2;">tap continue when you're ready</p>
     <button class="continue-btn" id="to-para1" style="position:relative; z-index:2;">Continue</button>
@@ -239,19 +239,19 @@
       <div id="heart-target">❤️</div>
       <div id="bow">🏹</div>
       <div id="reveal-overlay">
-        <img src="assets/reveal.jpg" alt="surprise">
+        <img src="reveal.jpg" alt="surprise">
         <h2 class="script" style="font-size:1.8rem;">You got her heart!</h2>
         <button class="continue-btn" id="to-video">Continue</button>
       </div>
     </div>
-    <audio id="sfx-clap" src="assets/clap.mp3" preload="auto"></audio>
-    <audio id="sfx-yay" src="assets/yay.mp3" preload="auto"></audio>
+    <audio id="sfx-clap" src="clap.mp3" preload="auto"></audio>
+    <audio id="sfx-yay" src="yay.mp3" preload="auto"></audio>
   </section>
 
   <!-- ===== VIDEO SCREEN ===== -->
   <section id="screen-video" class="screen">
     <div class="eyebrow">watch this</div>
-    <video id="main-video" src="assets/video.mp4" controls playsinline></video>
+    <video id="main-video" src="video.mp4" controls playsinline></video>
     <button class="continue-btn" id="to-para2">Continue</button>
   </section>
 
@@ -263,12 +263,12 @@
     <button class="continue-btn" id="to-restart">Start over</button>
   </section>
 
-  <audio id="bg-song" src="assets/song.mp3" loop preload="auto"></audio>
+  <audio id="bg-song" src="song.mp3" loop preload="auto"></audio>
 </div>
 
 <script>
 /* ====================== CONFIG ====================== */
-const PASSWORD = "HAPPYYY BIRTHDAY NAINAAA DEVI!"; // <-- put your chosen password here, keep the quotes
+const PASSWORD = "changeme"; // <-- put your chosen password here, keep the quotes
 
 /* ====================== SCREEN NAVIGATION ====================== */
 const screens = ["screen-password","screen-birthday","screen-para1","screen-game","screen-video","screen-para2"];
