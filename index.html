@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>For Naina 🛐</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wine:#2b0f14;
+    --wine-deep:#1a080c;
+    --blush:#f3c9d0;
+    --gold:#d4af6a;
+    --rose:#e85c72;
+    --cream:#fbeee4;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; padding:0; height:100%; width:100%;
+    background:var(--wine-deep);
+    font-family:'Nunito Sans', sans-serif;
+    color:var(--cream);
+    overflow:hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #app{
+    position:relative;
+    width:100vw; height:100vh;
+    height:100dvh;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(232,92,114,0.18), transparent 55%),
+      radial-gradient(circle at 80% 80%, rgba(212,175,106,0.12), transparent 50%),
+      var(--wine);
+    overflow:hidden;
+  }
+  .screen{
+    position:absolute; inset:0;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:28px;
+    text-align:center;
+    opacity:0;
+    transition:opacity .6s ease;
+  }
+  .screen.active{ display:flex; opacity:1; }
+
+  .eyebrow{
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    font-size:.68rem;
+    color:var(--gold);
+    margin-bottom:14px;
+    font-weight:700;
+  }
+  h1,h2{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    margin:0 0 12px;
+    line-height:1.15;
+  }
+  .script{
+    font-family:'Dancing Script', cursive;
+    color:var(--rose);
+  }
+  p.body-text{
+    font-size:1.05rem;
+    line-height:1.85;
+    max-width:480px;
+    color:var(--blush);
+    font-weight:400;
+    white-space:pre-wrap;
+  }
+  .continue-btn{
+    margin-top:34px;
+    background:transparent;
+    border:1.5px solid var(--gold);
+    color:var(--gold);
+    padding:12px 30px;
+    border-radius:999px;
+    font-size:.85rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:700;
+    font-family:'Nunito Sans',sans-serif;
+    cursor:pointer;
+    transition:all .25s ease;
+  }
+  .continue-btn:active{ transform:scale(.94); background:var(--gold); color:var(--wine-deep); }
+
+  /* ---------- PASSWORD SCREEN ---------- */
+  #screen-password input{
+    margin-top:10px;
+    width:min(260px, 70vw);
+    text-align:center;
+    background:rgba(255,255,255,0.06);
+    border:1px solid var(--gold);
+    color:var(--cream);
+    padding:14px 16px;
+    border-radius:14px;
+    font-size:1.05rem;
+    letter-spacing:.05em;
+  }
+  #screen-password input::placeholder{ color:rgba(251,238,228,0.4); }
+  #pw-error{
+    margin-top:10px;
+    font-size:.85rem;
+    color:var(--rose);
+    height:18px;
+  }
+
+  /* ---------- POLAROID COLLAGE ---------- */
+  .polaroid{
+    position:absolute;
+    width:26vw; max-width:120px;
+    background:#fff;
+    padding:8px 8px 22px;
+    border-radius:4px;
+    box-shadow:0 12px 24px rgba(0,0,0,0.4);
+    opacity:.9;
+  }
+  .polaroid img{ width:100%; display:block; border-radius:2px; height:26vw; max-height:120px; object-fit:cover; background:#ccc; }
+  .float{ animation:floaty 6s ease-in-out infinite; }
+  @keyframes floaty{ 0%,100%{ transform:translateY(0) rotate(var(--r,0deg)); } 50%{ transform:translateY(-14px) rotate(var(--r,0deg)); } }
+
+  /* ---------- BIRTHDAY SCREEN ---------- */
+  #screen-birthday h1{
+    font-size:2.1rem;
+    text-shadow:0 4px 20px rgba(232,92,114,0.5);
+  }
+  #confetti-canvas{
+    position:absolute; inset:0; pointer-events:none;
+  }
+
+  /* ---------- GAME SCREEN ---------- */
+  #game-stage{
+    position:relative;
+    width:100%; height:100%;
+  }
+  #heart-target{
+    position:absolute;
+    font-size:2.6rem;
+    filter:drop-shadow(0 0 14px rgba(232,92,114,.7));
+    animation:heartbeat 1.1s ease-in-out infinite;
+    transition:left .35s ease, top .35s ease;
+  }
+  @keyframes heartbeat{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.15);} }
+  #bow{
+    position:absolute;
+    bottom:26px; left:50%;
+    transform:translateX(-50%);
+    font-size:2.6rem;
+    transform-origin:center;
+  }
+  .arrow{
+    position:absolute;
+    font-size:1.6rem;
+    pointer-events:none;
+    transition:transform .35s cubic-bezier(.2,.7,.3,1), left .35s cubic-bezier(.2,.7,.3,1), top .35s cubic-bezier(.2,.7,.3,1), opacity .2s ease .3s;
+  }
+  #game-hint{
+    position:absolute; top:18px; left:0; right:0;
+    font-size:.8rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--gold); font-weight:700;
+  }
+  #reveal-overlay{
+    position:absolute; inset:0;
+    display:none;
+    align-items:center; justify-content:center;
+    flex-direction:column;
+    background:rgba(26,8,12,0.92);
+  }
+  #reveal-overlay.active{ display:flex; }
+  #reveal-overlay img{
+    width:min(70vw, 280px);
+    border-radius:14px;
+    box-shadow:0 20px 50px rgba(0,0,0,.6);
+    margin-bottom:18px;
+    animation:pop .5s cubic-bezier(.2,.9,.3,1.3);
+  }
+  @keyframes pop{ 0%{ transform:scale(.3); opacity:0; } 100%{ transform:scale(1); opacity:1; } }
+
+  /* ---------- VIDEO SCREEN ---------- */
+  video{
+    width:100%; max-width:420px;
+    border-radius:16px;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+  }
+
+  .small-note{
+    margin-top:16px; font-size:.72rem; color:rgba(251,238,228,0.45);
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ===== PASSWORD SCREEN ===== -->
+  <section id="screen-password" class="screen active">
+    <div class="eyebrow">a private page for</div>
+    <h1 class="script" style="font-size:3rem;">Naina</h1>
+    <p class="body-text">Enter the password to open your surprise 💌</p>
+    <input id="pw-input" type="password" placeholder="password" inputmode="text" autocomplete="off">
+    <div id="pw-error"></div>
+    <button class="continue-btn" id="pw-submit">Unlock</button>
+  </section>
+
+  <!-- ===== BIRTHDAY REVEAL ===== -->
+  <section id="screen-birthday" class="screen">
+    <canvas id="confetti-canvas"></canvas>
+    <div class="polaroid float" style="top:8%; left:6%; --r:-8deg;"><img src="assets/photo1.jpg" alt=""></div>
+    <div class="polaroid float" style="top:12%; right:6%; --r:7deg; animation-delay:1s;"><img src="assets/photo2.jpg" alt=""></div>
+    <div class="polaroid float" style="bottom:10%; left:8%; --r:5deg; animation-delay:2s;"><img src="assets/photo3.jpg" alt=""></div>
+    <h1 id="birthday-text" style="position:relative; z-index:2;">HAPPPYYY BIRTHDAY,<br><span class="script" style="font-size:2.6rem;">NAINAAAAAA</span> 🛐😍!!</h1>
+    <p class="small-note" style="position:relative; z-index:2;">tap continue when you're ready</p>
+    <button class="continue-btn" id="to-para1" style="position:relative; z-index:2;">Continue</button>
+  </section>
+
+  <!-- ===== PARAGRAPH 1 ===== -->
+  <section id="screen-para1" class="screen">
+    <div class="eyebrow">for you</div>
+    <h2 style="font-size:1.7rem;">A little something I wanted to say</h2>
+    <p class="body-text" id="para1-text">EDIT_ME: Write your long paragraph here. Talk about how you met, what she means to you, an inside joke, whatever you want. This text box will fade in nicely, so take your time writing it in the file.</p>
+    <button class="continue-btn" id="to-game">Continue</button>
+  </section>
+
+  <!-- ===== GAME SCREEN ===== -->
+  <section id="screen-game" class="screen">
+    <div id="game-stage">
+      <div id="game-hint">tap anywhere to shoot the heart 🏹</div>
+      <div id="heart-target">❤️</div>
+      <div id="bow">🏹</div>
+      <div id="reveal-overlay">
+        <img src="assets/reveal.jpg" alt="surprise">
+        <h2 class="script" style="font-size:1.8rem;">You got her heart!</h2>
+        <button class="continue-btn" id="to-video">Continue</button>
+      </div>
+    </div>
+    <audio id="sfx-clap" src="assets/clap.mp3" preload="auto"></audio>
+    <audio id="sfx-yay" src="assets/yay.mp3" preload="auto"></audio>
+  </section>
+
+  <!-- ===== VIDEO SCREEN ===== -->
+  <section id="screen-video" class="screen">
+    <div class="eyebrow">watch this</div>
+    <video id="main-video" src="assets/video.mp4" controls playsinline></video>
+    <button class="continue-btn" id="to-para2">Continue</button>
+  </section>
+
+  <!-- ===== FINAL PARAGRAPH ===== -->
+  <section id="screen-para2" class="screen">
+    <div class="eyebrow">last thing</div>
+    <h2 style="font-size:1.7rem;">Before you go</h2>
+    <p class="body-text" id="para2-text">EDIT_ME: Write your final long paragraph here. This is the closing note, maybe how you hope her year ahead looks, or just "I love you" said in your own words.</p>
+    <button class="continue-btn" id="to-restart">Start over</button>
+  </section>
+
+  <audio id="bg-song" src="assets/song.mp3" loop preload="auto"></audio>
+</div>
+
+<script>
+/* ====================== CONFIG ====================== */
+const PASSWORD = "changeme"; // <-- put your chosen password here, keep the quotes
+
+/* ====================== SCREEN NAVIGATION ====================== */
+const screens = ["screen-password","screen-birthday","screen-para1","screen-game","screen-video","screen-para2"];
+function showScreen(id){
+  screens.forEach(s => document.getElementById(s).classList.toggle("active", s === id));
+}
+
+/* ====================== PASSWORD ====================== */
+const pwInput = document.getElementById("pw-input");
+const pwError = document.getElementById("pw-error");
+const bgSong = document.getElementById("bg-song");
+
+document.getElementById("pw-submit").addEventListener("click", tryUnlock);
+pwInput.addEventListener("keydown", e => { if(e.key === "Enter") tryUnlock(); });
+
+function tryUnlock(){
+  if(pwInput.value.trim().toLowerCase() === PASSWORD.trim().toLowerCase()){
+    pwError.textContent = "";
+    showScreen("screen-birthday");
+    launchConfetti();
+    bgSong.currentTime = 0;
+    bgSong.play().catch(()=>{ /* browser blocked autoplay, user can tap screen again */ });
+  } else {
+    pwError.textContent = "that's not quite it 🥹 try again";
+  }
+}
+
+/* ====================== NAV BUTTONS ====================== */
+document.getElementById("to-para1").addEventListener("click", () => showScreen("screen-para1"));
+document.getElementById("to-game").addEventListener("click", () => { showScreen("screen-game"); placeHeart(); });
+document.getElementById("to-video").addEventListener("click", () => {
+  showScreen("screen-video");
+  bgSong.pause();
+});
+document.getElementById("to-para2").addEventListener("click", () => {
+  document.getElementById("main-video").pause();
+  showScreen("screen-para2");
+});
+document.getElementById("to-restart").addEventListener("click", () => {
+  bgSong.pause();
+  bgSong.currentTime = 0;
+  pwInput.value = "";
+  document.getElementById("reveal-overlay").classList.remove("active");
+  showScreen("screen-password");
+});
+
+/* ====================== CONFETTI ====================== */
+const canvas = document.getElementById("confetti-canvas");
+const ctx = canvas.getContext("2d");
+let confettiPieces = [];
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+function launchConfetti(){
+  confettiPieces = [];
+  const colors = ["#e85c72","#d4af6a","#f3c9d0","#fbeee4"];
+  for(let i=0;i<140;i++){
+    confettiPieces.push({
+      x: canvas.width/2,
+      y: canvas.height/2,
+      vx: (Math.random()-0.5) * 14,
+      vy: (Math.random()-1.6) * 14,
+      size: 4 + Math.random()*5,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      rot: Math.random()*360,
+      vr: (Math.random()-0.5)*10
+    });
+  }
+  requestAnimationFrame(animateConfetti);
+}
+function animateConfetti(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  let alive = false;
+  confettiPieces.forEach(p => {
+    p.vy += 0.35; // gravity
+    p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+    if(p.y < canvas.height + 20) alive = true;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot * Math.PI/180);
+    ctx.fillStyle = p.color;
+    ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size*0.6);
+    ctx.restore();
+  });
+  if(alive) requestAnimationFrame(animateConfetti);
+  else ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+/* ====================== GAME: BOW + HEART ====================== */
+const stage = document.getElementById("game-stage");
+const heart = document.getElementById("heart-target");
+const bow = document.getElementById("bow");
+const revealOverlay = document.getElementById("reveal-overlay");
+const sfxClap = document.getElementById("sfx-clap");
+const sfxYay = document.getElementById("sfx-yay");
+let gameWon = false;
+
+function placeHeart(){
+  gameWon = false;
+  revealOverlay.classList.remove("active");
+  const stageRect = stage.getBoundingClientRect();
+  const margin = 60;
+  const x = margin + Math.random() * (stageRect.width - margin*2 - 40);
+  const y = margin + Math.random() * (stageRect.height*0.55 - margin);
+  heart.style.left = x + "px";
+  heart.style.top = y + "px";
+}
+
+stage.addEventListener("click", (e) => {
+  if(gameWon) return;
+  if(e.target.closest("#reveal-overlay")) return;
+
+  const stageRect = stage.getBoundingClientRect();
+  const tapX = e.clientX - stageRect.left;
+  const tapY = e.clientY - stageRect.top;
+
+  shootArrow(tapX, tapY);
+
+  const heartRect = heart.getBoundingClientRect();
+  const hx = heartRect.left - stageRect.left + heartRect.width/2;
+  const hy = heartRect.top - stageRect.top + heartRect.height/2;
+  const dist = Math.hypot(tapX - hx, tapY - hy);
+  const tolerance = 55; // generous hit radius for mobile taps
+
+  setTimeout(() => {
+    if(dist <= tolerance){
+      winGame();
+    } else {
+      placeHeart(); // heart moves, try again
+    }
+  }, 380);
+});
+
+function shootArrow(x, y){
+  const bowRect = bow.getBoundingClientRect();
+  const stageRect = stage.getBoundingClientRect();
+  const startX = bowRect.left - stageRect.left + bowRect.width/2;
+  const startY = bowRect.top - stageRect.top;
+
+  const arrow = document.createElement("div");
+  arrow.className = "arrow";
+  arrow.textContent = "➶";
+  const angle = Math.atan2(y - startY, x - startX) * 180/Math.PI;
+  arrow.style.left = startX + "px";
+  arrow.style.top = startY + "px";
+  arrow.style.transform = `rotate(${angle}deg)`;
+  stage.appendChild(arrow);
+
+  requestAnimationFrame(() => {
+    arrow.style.left = x + "px";
+    arrow.style.top = y + "px";
+  });
+  setTimeout(() => { arrow.style.opacity = "0"; }, 350);
+  setTimeout(() => arrow.remove(), 600);
+}
+
+function winGame(){
+  gameWon = true;
+  revealOverlay.classList.add("active");
+  sfxClap.currentTime = 0; sfxClap.play().catch(()=>{});
+  sfxYay.currentTime = 0; sfxYay.play().catch(()=>{});
+}
+</script>
+</body>
+</html>
